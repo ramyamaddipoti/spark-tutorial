@@ -17,7 +17,7 @@ object TextSearch {
     
     val sqlContext= new SQLContext(sc)
     import sqlContext.implicits.stringRddToDataFrameHolder
-    val textFile = sc.textFile("errors.txt")
+    val textFile = sc.textFile("input/errors.txt")
     // Creates a DataFrame having a single column named "line"
     val df = textFile.toDF("line")
     val errors = df.filter(col("line").like("%ERROR%"))

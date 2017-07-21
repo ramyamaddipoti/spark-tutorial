@@ -25,7 +25,7 @@ object UIDStats {
 
     uidEnrolmentDF.registerTempTable("uid_enrolments_detail")
     
-    val path: Path = Path("uid")
+    val path: Path = Path.fromString("output/uid")
     path.deleteRecursively()
     //FileUtils.deleteQuietly(new File("uid/stateWiseCount.csv"))
 
@@ -39,7 +39,7 @@ object UIDStats {
     //stateWiseCountDF.write.mode("overwrite").format("com.databricks.spark.csv").save("uid/stateWiseCount.csv")
     stateWiseCountDF.coalesce(1).write.
       format("com.databricks.spark.csv").option("header", "true").
-      save("uid/stateWiseCount.csv")
+      save("output/uid/stateWiseCount.csv")
 
     val maxEnrolmentAgencyDF = hiveContext.sql("""
                                             | select `Enrolment Agency` as Enrolment_Agency,
@@ -48,6 +48,7 @@ object UIDStats {
                                             | group by `Enrolment Agency`
                                             | order by count desc""".stripMargin)
       //.collect().foreach(println)
+      maxEnrolmentAgencyDF.write.mode("overwrite").format("com.databricks.spark.csv").save("uid/agencyWiseCount.csv")
 
       val distictWiseGenderWiseDF = hiveContext.sql("""
                                             | select district,
@@ -67,7 +68,7 @@ object UIDStats {
     // distictWiseGenderWiseDF.write.mode("overwrite").saveAsTable("uid.district_wise_gender_count")
     distictWiseGenderWiseDF.coalesce(1).write.
       format("com.databricks.spark.csv").option("header", "true").
-      save("uid/districtWiseCount.csv")
+      save("output/uid/districtWiseCount.csv")
 
   }
 

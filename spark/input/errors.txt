@@ -1,0 +1,5 @@
+060516 22:38:46  mysqld started
+InnoDB: ERROR The first specified data file ./ibdata1 did not exist:
+InnoDB: a new database to be created!
+060516 22:38:54 ERROR InnoDB: Started; log MySQLsequence number 0 0
+060516 22:38:54 [ERROR] Fatal error: Can't open privilege tables: Table 'MySQL.host' doesn't exist

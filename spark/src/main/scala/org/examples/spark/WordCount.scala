@@ -2,6 +2,7 @@ package org.examples.spark
 
 import org.apache.spark.SparkContext
 import org.apache.spark.SparkConf
+import scalax.file.Path
 
 object WordCount {
 
@@ -12,7 +13,10 @@ object WordCount {
       .setMaster("local")
     val sc = new SparkContext(conf)
 
-    val test = sc.textFile("food.txt")
+    val test = sc.textFile("input/food.txt")
+    val path = Path.fromString("output/wordCount")
+    path.deleteRecursively()
+    
     test.flatMap { 
       line => line.split(" ") 
     }
@@ -20,7 +24,7 @@ object WordCount {
       word => (word,1) 
     }
     .reduceByKey(_ + _)
-    .saveAsTextFile("food.count.txt")
+    .saveAsTextFile("output/wordCount")
   
   }
 }
